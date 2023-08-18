@@ -1,0 +1,1786 @@
+﻿<?xml version="1.0" encoding="utf-8"?><ManagementPack ContentReadable="true" SchemaVersion="2.0" OriginalSchemaVersion="1.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <Manifest>
+    <Identity>
+      <ID>Microsoft.SQLServer.Windows.Monitoring.Addendum</ID>
+      <Version>1.0.1.1</Version>
+    </Identity>
+    <Name>Microsoft SQLServer Windows Monitoring Addendum</Name>
+    <References>
+      <Reference Alias="Windows">
+        <ID>Microsoft.Windows.Library</ID>
+        <Version>7.5.8501.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+      <Reference Alias="MSSWD">
+        <ID>Microsoft.SQLServer.Windows.Discovery</ID>
+        <Version>7.0.20.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+      <Reference Alias="MSIGL">
+        <ID>Microsoft.SystemCenter.InstanceGroup.Library</ID>
+        <Version>7.5.8501.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+      <Reference Alias="SC">
+        <ID>Microsoft.SystemCenter.Library</ID>
+        <Version>7.0.8433.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+      <Reference Alias="MSSWM">
+        <ID>Microsoft.SQLServer.Windows.Monitoring</ID>
+        <Version>7.0.20.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+    </References>
+  </Manifest>
+  <TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+        <ClassType ID="Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.TestDev.Windows.Server.Group" Accessibility="Public" Abstract="false" Base="MSIGL!Microsoft.SystemCenter.InstanceGroup" Hosted="false" Singleton="true" Extension="false" />
+        <ClassType ID="Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.Production.Windows.Server.Group" Accessibility="Public" Abstract="false" Base="MSIGL!Microsoft.SystemCenter.InstanceGroup" Hosted="false" Singleton="true" Extension="false" />
+      </ClassTypes>
+    </EntityTypes>
+  </TypeDefinitions>
+  <Monitoring>
+    <Discoveries>
+      <Discovery ID="Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.TestDev.Windows.Server.Group.DiscoveryRule" Enabled="true" Target="Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.TestDev.Windows.Server.Group" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryRelationship TypeID="MSIGL!Microsoft.SystemCenter.InstanceGroupContainsEntities" />
+        </DiscoveryTypes>
+        <DataSource ID="GroupPopulationDataSource" TypeID="SC!Microsoft.SystemCenter.GroupPopulator">
+          <RuleId>$MPElement$</RuleId>
+          <GroupInstanceId>$MPElement[Name="Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.TestDev.Windows.Server.Group"]$</GroupInstanceId>
+          <MembershipRules>
+            <MembershipRule>
+              <MonitoringClass>$MPElement[Name="Windows!Microsoft.Windows.Server.Computer"]$</MonitoringClass>
+              <RelationshipClass>$MPElement[Name="MSIGL!Microsoft.SystemCenter.InstanceGroupContainsEntities"]$</RelationshipClass>
+              <Expression>
+                <RegExExpression>
+                  <ValueExpression>
+                    <Property>$MPElement[Name="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Property>
+                  </ValueExpression>
+                  <Operator>MatchesRegularExpression</Operator>
+                  <Pattern>(?i)##TESTSERVER##|##DEVSERVER##</Pattern>
+                </RegExExpression>
+              </Expression>
+            </MembershipRule>
+          </MembershipRules>
+        </DataSource>
+      </Discovery>
+      <Discovery ID="Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.Production.Windows.Server.Group.DiscoveryRule" Enabled="true" Target="Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.Production.Windows.Server.Group" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryRelationship TypeID="MSIGL!Microsoft.SystemCenter.InstanceGroupContainsEntities" />
+        </DiscoveryTypes>
+        <DataSource ID="GroupPopulationDataSource" TypeID="SC!Microsoft.SystemCenter.GroupPopulator">
+          <RuleId>$MPElement$</RuleId>
+          <GroupInstanceId>$MPElement[Name="Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.Production.Windows.Server.Group"]$</GroupInstanceId>
+          <MembershipRules>
+            <MembershipRule>
+              <MonitoringClass>$MPElement[Name="Windows!Microsoft.Windows.Server.Computer"]$</MonitoringClass>
+              <RelationshipClass>$MPElement[Name="MSIGL!Microsoft.SystemCenter.InstanceGroupContainsEntities"]$</RelationshipClass>
+              <Expression>
+                <RegExExpression>
+                  <ValueExpression>
+                    <Property>$MPElement[Name="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Property>
+                  </ValueExpression>
+                  <Operator>MatchesRegularExpression</Operator>
+                  <Pattern>(?i)##APPID1##|##APPID2[1-3]##</Pattern>
+                </RegExExpression>
+              </Expression>
+            </MembershipRule>
+          </MembershipRules>
+        </DataSource>
+      </Discovery>
+    </Discoveries>
+    <Overrides>
+      <DiscoveryConfigurationOverride ID="Override.Microsoft.SQLServer.Windows.LocalDBEngineDiscovery" Context="MSSWD!Microsoft.SQLServer.Windows.LocalDiscoverySeed" Enforced="false" Discovery="MSSWD!Microsoft.SQLServer.Windows.LocalDBEngineDiscovery" Parameter="ExcludedEditions" Module="DS">
+        <Value>EXPRESS</Value>
+      </DiscoveryConfigurationOverride>
+      <DiscoveryPropertyOverride ID="Override.Disable.Microsoft.SQLServer.Windows.Discovery.LocalDiscoverySeed" Context="Windows!Microsoft.Windows.Server.Computer" Enforced="false" Discovery="MSSWD!Microsoft.SQLServer.Windows.Discovery.LocalDiscoverySeed" Property="Enabled">
+        <Value>true</Value>
+      </DiscoveryPropertyOverride>
+      <DiscoveryPropertyOverride ID="Override.Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.TestDev.Windows.Server.Group" Context="Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.TestDev.Windows.Server.Group" ContextInstance="1879caea-edbf-a8ea-8a02-15a7d25a1747" Enforced="false" Discovery="MSSWD!Microsoft.SQLServer.Windows.Discovery.LocalDiscoverySeed" Property="Enabled">
+        <Value>false</Value>
+      </DiscoveryPropertyOverride>
+      <DiscoveryPropertyOverride ID="Override.Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.Production.Windows.Server.Group" Context="Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.Production.Windows.Server.Group" ContextInstance="0e6cc6b4-edf7-a750-f3b7-55493e0804a8" Enforced="false" Discovery="MSSWD!Microsoft.SQLServer.Windows.Discovery.LocalDiscoverySeed" Property="Enabled">
+        <Value>true</Value>
+      </DiscoveryPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Database.DatabaseBackupStatus" Context="MSSWD!Microsoft.SQLServer.Windows.Database" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.Database.DBBackupStatus" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.AlertOnState.Microsoft.SQLServer.Windows.Database.DatabaseBackupStatus" Context="MSSWD!Microsoft.SQLServer.Windows.Database" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.Database.DBBackupStatus" Property="AlertOnState">
+        <Value>Warning</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.AlertSeverity.Microsoft.SQLServer.Windows.Database.DatabaseBackupStatus" Context="MSSWD!Microsoft.SQLServer.Windows.Database" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.Database.DBBackupStatus" Property="AlertSeverity">
+        <Value>Warning</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Database.DatabaseLogBackupStatus" Context="MSSWD!Microsoft.SQLServer.Windows.Database" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.Database.DBLogBackupStatus" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.AlertOnState.Microsoft.SQLServer.Windows.Database.DatabaseLogBackupStatus" Context="MSSWD!Microsoft.SQLServer.Windows.Database" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.Database.DBLogBackupStatus" Property="AlertOnState">
+        <Value>Warning</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.AlertSeverity.Microsoft.SQLServer.Windows.Database.DatabaseLogBackupStatus" Context="MSSWD!Microsoft.SQLServer.Windows.Database" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.Database.DBLogBackupStatus" Property="AlertSeverity">
+        <Value>Warning</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Database.FilestreamSizePercent" Context="MSSWD!Microsoft.SQLServer.Windows.Database" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.Database.FilestreamSizePercent" Property="Enabled">
+        <Value>true</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.DBFile.DBFileSpace" Context="MSSWD!Microsoft.SQLServer.Windows.DBFile" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.DBFile.DBFileSpace" Property="Enabled">
+        <Value>true</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.DBLogFile.DBLogFileSpace" Context="MSSWD!Microsoft.SQLServer.Windows.DBLogFile" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.DBLogFile.DBLogFileSpace" Property="Enabled">
+        <Value>true</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.AgentJob.Duration" Context="MSSWD!Microsoft.SQLServer.Windows.AgentJob" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.AgentJob.Duration" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.AgentJob.LastRunState" Context="MSSWD!Microsoft.SQLServer.Windows.AgentJob" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.AgentJob.LastRunState" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.LogShippingDestinationMonitor" Context="MSSWD!Microsoft.SQLServer.Windows.Database" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.LogShippingDestinationMonitor" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Database.LogShippingSourceMonitor" Context="MSSWD!Microsoft.SQLServer.Windows.Database" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Database.LogShippingSourceMonitor" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.DBEngine.AverageWaitTime" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.DBEngine.AverageWaitTime" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.DBEngine.BlockingSessions" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.DBEngine.BlockingSessions" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.AvailabilityReplica.SecurablesConfigMonitor" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.AvailabilityReplica.SecurablesConfigMonitor" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.DBEngine.ServicePackLevel" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.DBEngine.ServicePackLevel" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.DBEngine.StolenServerMemory" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.DBEngine.StolenServerMemory" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.DBEngine.ThreadCount" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.DBEngine.ThreadCount" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.DBFilegroupFx.HashIndexAvgChainLength" Context="MSSWD!Microsoft.SQLServer.Windows.DBFilegroupFx" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.DBFilegroupFx.HashIndexAvgChainLength" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.DBFilegroupFx.HashIndexEmptyBucketsCount" Context="MSSWD!Microsoft.SQLServer.Windows.DBFilegroupFx" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.DBFilegroupFx.HashIndexEmptyBucketsCount" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.DBFilegroupFx.StaleCFPs" Context="MSSWD!Microsoft.SQLServer.Windows.DBFilegroupFx" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.DBFilegroupFx.StaleCFPs" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.DBFilegroupFx.XTPConfigurationMonitor" Context="MSSWD!Microsoft.SQLServer.Windows.DBFilegroupFx" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.DBFilegroupFx.XTPConfigurationMonitor" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.Database.ServiceStatus" Context="MSSWD!Microsoft.SQLServer.Windows.LocalDatabase" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.Database.ServiceStatus" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.LocalDBEngine.WmiHealth" Context="MSSWD!Microsoft.SQLServer.Windows.LocalDatabase" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.LocalDBEngine.WmiHealth" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.DatabaseErrorUserPolicy.DBErrorUserPolicyState" Context="MSSWD!Microsoft.SQLServer.Windows.MonitorType.UserPolicy" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.DatabaseErrorUserPolicy.DBErrorUserPolicyState" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.DatabaseWarningUserPolicy.DBWarningUserPolicyState" Context="MSSWD!Microsoft.SQLServer.Windows.MonitorType.UserPolicy" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.DatabaseWarningUserPolicy.DBWarningUserPolicyState" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.UserResourcePool.MemoryConsumption" Context="MSSWD!Microsoft.SQLServer.Windows.UserResourcePool" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.UserResourcePool.MemoryConsumption" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.AvailabilityGroupHealth.AutomaticFailoverReadiness" Context="MSSWD!Microsoft.SQLServer.Windows.AvailabilityGroupHealth" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.AvailabilityGroupHealth.AutomaticFailoverReadiness" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.AvailabilityGroupHealth.AvailabilityGroupOnline" Context="MSSWD!Microsoft.SQLServer.Windows.AvailabilityGroupHealth" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.AvailabilityGroupHealth.AvailabilityGroupOnline" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.AvailabilityGroupHealth.AvailabilityReplicaRoleState" Context="MSSWD!Microsoft.SQLServer.Windows.AvailabilityGroupHealth" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.AvailabilityGroupHealth.AvailabilityReplicaRoleState" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.AvailabilityGroupHealth.AvailabilityReplicasSynchronizationState" Context="MSSWD!Microsoft.SQLServer.Windows.AvailabilityGroupHealth" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.AvailabilityGroupHealth.AvailabilityReplicasSynchronizationState" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.AvailabilityReplica.IsConnected" Context="MSSWD!Microsoft.SQLServer.Windows.AvailabilityReplica" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.AvailabilityReplica.IsConnected" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.AvailabilityReplica.RoleIsHealthy" Context="MSSWD!Microsoft.SQLServer.Windows.AvailabilityReplica" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.AvailabilityReplica.RoleIsHealthy" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.DBEngine.Configuration.SecurablesConfigMonitor" Context="MSSWD!Microsoft.SQLServer.Windows.LocalDBEngine" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.DBEngine.Configuration.SecurablesConfigMonitor" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.CollectionRule.Container.SpaceFreeMB" Context="MSSWD!Microsoft.SQLServer.Windows.Container" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.CollectionRule.Container.SpaceFreeMB" Property="Enabled">
+        <Value>true</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.IORequestsTakingLongerThen15SecondsToComplete" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.IORequestsTakingLongerThen15SecondsToComplete" Property="Enabled">
+        <Value>true</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.CollectionRule.DBFilegroupFd.SpaceFreePercent" Context="MSSWD!Microsoft.SQLServer.Windows.DBFilegroup" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.CollectionRule.DBFilegroupFd.SpaceFreePercent" Property="Enabled">
+        <Value>true</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.CollectionRule.DBFilegroup.SpaceFreeMegabytes" Context="MSSWD!Microsoft.SQLServer.Windows.DBFilegroup" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.CollectionRule.DBFilegroup.SpaceFreeMegabytes" Property="Enabled">
+        <Value>true</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.CollectionRule.DBFile.SpaceFreeMegabytes" Context="MSSWD!Microsoft.SQLServer.Windows.DBFile" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.CollectionRule.DBFile.SpaceFreeMegabytes" Property="Enabled">
+        <Value>true</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.CollectionRule.DBLogFile.SpaceFreeMegabytes" Context="MSSWD!Microsoft.SQLServer.Windows.DBLogFile" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.CollectionRule.DBLogFile.SpaceFreeMegabytes" Property="Enabled">
+        <Value>true</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.CollectionRule.Agent.Job_step_cannot_be_run_because_the_subsystem_failed_to_load_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.Agent" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.CollectionRule.Agent.Job_step_cannot_be_run_because_the_subsystem_failed_to_load_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.CollectionRule.Agent.SQLServerAgent_could_not_be_started_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.Agent" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.CollectionRule.Agent.SQLServerAgent_could_not_be_started_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.CollectionRule.Agent.SQLServerAgent_initiating_self_termination_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.Agent" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.CollectionRule.Agent.SQLServerAgent_initiating_self_termination_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.CollectionRule.Agent.Step_of_a_job_caused_an_exception_in_the_subsystem_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.Agent" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.CollectionRule.Agent.Step_of_a_job_caused_an_exception_in_the_subsystem_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.CollectionRule.Agent.Unable_to_connect_to_SQL_Server_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.Agent" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.CollectionRule.Agent.Unable_to_connect_to_SQL_Server_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.CollectionRule.Agent.Unable_to_re_open_the_local_eventlog_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.Agent" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.CollectionRule.Agent.Unable_to_re_open_the_local_eventlog_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.CollectionRule.Agent.The_agent_is_suspect._No_response_within_last_minutes_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.CollectionRule.Agent.The_agent_is_suspect._No_response_within_last_minutes_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.A_default_full_text_catalog_does_not_exist_in_the_database_or_user_does_not_have_permission_to_perform_this_action_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.A_default_full_text_catalog_does_not_exist_in_the_database_or_user_does_not_have_permission_to_perform_this_action_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_a_SQL_Server_Service_Broker_Database_Mirroring_transport_connection_endpoint_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_a_SQL_Server_Service_Broker_Database_Mirroring_transport_connection_endpoint_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_Service_Broker_manager_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_Service_Broker_manager_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_Service_Broker_queue_rollback_handler_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_Service_Broker_queue_rollback_handler_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_SQL_Server_Service_Broker_message_dispatcher_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_SQL_Server_Service_Broker_message_dispatcher_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_SQL_Server_Service_Broker_message_transmitter_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_SQL_Server_Service_Broker_message_transmitter_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_SQL_Server_Service_Broker_or_Database_Mirroring_transport_manager_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_SQL_Server_Service_Broker_or_Database_Mirroring_transport_manager_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_timer_event_cache_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_timer_event_cache_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_while_processing_SQL_Server_Service_Broker_mirroring_routes_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_while_processing_SQL_Server_Service_Broker_mirroring_routes_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_while_processing_the_log_for_database_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_while_processing_the_log_for_database_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_SQL_Server_Service_Broker_dialog_caught_an_error_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.An_SQL_Server_Service_Broker_dialog_caught_an_error_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.AppDomain_failed_to_unload_with_error_code_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.AppDomain_failed_to_unload_with_error_code_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.A_security__SSPI__error_occurred_when_connecting_to_another_Service_Broker_or_Database_Mirroring_host_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.A_security__SSPI__error_occurred_when_connecting_to_another_Service_Broker_or_Database_Mirroring_host_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.A_SQL_Server_Service_Broker_conversation_closed_due_to_an_error_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.A_SQL_Server_Service_Broker_conversation_closed_due_to_an_error_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.A_SQL_Server_Service_Broker_cryptographic_operation_failed_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.A_SQL_Server_Service_Broker_cryptographic_operation_failed_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Attempt_to_fetch_logical_page_that_belongs_to_different_object_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Attempt_to_fetch_logical_page_that_belongs_to_different_object_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.AWE__Could_not_use_Address_Windowing_Extensions_because__lock_pages_in_memory__privilege_was_not_granted_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.AWE__Could_not_use_Address_Windowing_Extensions_because__lock_pages_in_memory__privilege_was_not_granted_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_open_tempdb.__Cannot_continue_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_open_tempdb.__Cannot_continue_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.EventCollectionRule.DBEngine.CannotCreateFile" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.EventCollectionRule.DBEngine.CannotCreateFile" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_determine_the_service_account_for_SQL_Server_instance_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_determine_the_service_account_for_SQL_Server_instance_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_open_backup_device.__1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_open_backup_device.__1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_start_service_broker_activation_manager_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_start_service_broker_activation_manager_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_start_service_broker_manager_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_start_service_broker_manager_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_start_service_broker_manager_due_to_operating_system_error_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_start_service_broker_manager_due_to_operating_system_error_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_start_service_broker_security_manager_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_start_service_broker_security_manager_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_start_SQL_Server_Service_Broker_on_Database_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_start_SQL_Server_Service_Broker_on_Database_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Page_was_not_seen_in_the_scan_although_its_parent_and_previous_refer_to_it._Check_any_previous_errors_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Page_was_not_seen_in_the_scan_although_its_parent_and_previous_refer_to_it._Check_any_previous_errors_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.CHECKTABLE_terminated._A_failure_was_detected_while_collecting_facts._Possibly_tempdb_out_of_space_or_a_system_table_is_inconsistent._Check_previous_errors_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.CHECKTABLE_terminated._A_failure_was_detected_while_collecting_facts._Possibly_tempdb_out_of_space_or_a_system_table_is_inconsistent._Check_previous_errors_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Check_sum_failure_while_page_in_cache_id832" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Check_sum_failure_while_page_in_cache_id832" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___FOR_XML_EXPLICIT_stack_overflow_occurred._Circular_parent_tag_relationships_are_not_allowed_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___FOR_XML_EXPLICIT_stack_overflow_occurred._Circular_parent_tag_relationships_are_not_allowed_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Commit_of_internal_MSDTC_transaction_failed_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Commit_of_internal_MSDTC_transaction_failed_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Common_Language_Runtime__CLR__not_installed_properly_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Common_Language_Runtime__CLR__not_installed_properly_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Conflict_table__does_not_exist_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Conflict_table__does_not_exist_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.CREATE_DATABASE_failed._Could_not_allocate_enough_disk_space_for_a_new_database_on_the_named_disks_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.CREATE_DATABASE_failed._Could_not_allocate_enough_disk_space_for_a_new_database_on_the_named_disks_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_allocate_space_for_object__in_database__because_the__filegroup_is_full_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_allocate_space_for_object__in_database__because_the__filegroup_is_full_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Error_recovering_database_._Could_not_connect_to_MSDTC_to_check_the_completion_status_of_transaction_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Error_recovering_database_._Could_not_connect_to_MSDTC_to_check_the_completion_status_of_transaction_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_connect_to_server_because_it_is_not_defined_as_a_remote_login_at_the_server_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_connect_to_server_because_it_is_not_defined_as_a_remote_login_at_the_server_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_create_an_instance_of_OLE_DB_provider_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_create_an_instance_of_OLE_DB_provider_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_create_AppDomain_manager_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_create_AppDomain_manager_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_create_a_statement_object_using_OLE_DB_provider_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_create_a_statement_object_using_OLE_DB_provider_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_do_cleanup_for_the_killed_process_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_do_cleanup_for_the_killed_process_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_find_CHECK_constraint_although_the_table_is_flagged_as_having_one_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_find_CHECK_constraint_although_the_table_is_flagged_as_having_one_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_find_FOREIGN_KEY_constraints_for_table_although_the_table_is_flagged_as_having_them_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_find_FOREIGN_KEY_constraints_for_table_although_the_table_is_flagged_as_having_them_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_obtain_exclusive_lock_on_database_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_obtain_exclusive_lock_on_database_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_obtain_information_about_Windows_NT_group_user_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_obtain_information_about_Windows_NT_group_user_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_open_device_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_open_device_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_open_error_log_file_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_open_error_log_file_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_open_FCB_for_invalid_file_in_database__1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_open_FCB_for_invalid_file_in_database__1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_open_referenced_table_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_open_referenced_table_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_read_and_latch_page_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_read_and_latch_page_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_recover_database_due_to_unresolved_transaction_outcomes_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_recover_database_due_to_unresolved_transaction_outcomes_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_resolve_the_referenced_column_name_in_table_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_resolve_the_referenced_column_name_in_table_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_write_a_CHECKPOINT_record_in_database_because_the_log_is_out_of_space_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_write_a_CHECKPOINT_record_in_database_because_the_log_is_out_of_space_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.EventCollectionRule.DBEngine.CreateFileEncounteredOperatingSystemError" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.EventCollectionRule.DBEngine.CreateFileEncounteredOperatingSystemError" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Database_could_not_recover_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Database_could_not_recover_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.DBCC_executed_found_and_repaired_errors_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.DBCC_executed_found_and_repaired_errors_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_mark_database_as_suspect._Getnext_NC_scan_on_sysdatabases.dbid_failed_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_mark_database_as_suspect._Getnext_NC_scan_on_sysdatabases.dbid_failed_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Descriptor_for_object_in_database_not_found_in_the_hash_table_during_attempt_to_unhash_it_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Descriptor_for_object_in_database_not_found_in_the_hash_table_during_attempt_to_unhash_it_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Distributed_transaction_aborted_by_MSDTC_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Distributed_transaction_aborted_by_MSDTC_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___Failed_to_load_Msxml2.dll_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___Failed_to_load_Msxml2.dll_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___Failed_to_instantiate_class._Make_sure_Msxml2.dll_exists_in_the_SQL_Server_installation_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___Failed_to_instantiate_class._Make_sure_Msxml2.dll_exists_in_the_SQL_Server_installation_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___Full_text_catalog_is_in_a_unusable_state._Drop_and_re_create_this_full_text_catalog_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___Full_text_catalog_is_in_a_unusable_state._Drop_and_re_create_this_full_text_catalog_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Enlist_of_MSDTC_transaction_failed_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Enlist_of_MSDTC_transaction_failed_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Error_while_undoing_logged_operation_in_database__1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Error_while_undoing_logged_operation_in_database__1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_recover_the_master_database._Exiting_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_recover_the_master_database._Exiting_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_add_column__to_table__1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_add_column__to_table__1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_allocate_memory_for_Common_Language_Runtime__CLR__5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_allocate_memory_for_Common_Language_Runtime__CLR__5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_create_AppDomain_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_create_AppDomain_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_drop_column__from_table__1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_drop_column__from_table__1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_initialize_the_Common_Language_Runtime__CLR__due_to_memory_pressure_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_initialize_the_Common_Language_Runtime__CLR__due_to_memory_pressure_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_initialize_the_Common_Language_Runtime__CLR__with_HRESULT_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_initialize_the_Common_Language_Runtime__CLR__with_HRESULT_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_initialize_the_Common_Language_Runtime__CLR__with_HRESULT_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_initialize_the_Common_Language_Runtime__CLR__with_HRESULT_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_find_filegroup_ID_in_sys.filegroups_for_database_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_find_filegroup_ID_in_sys.filegroups_for_database_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___An_unknown_full_text_failure_occurred_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___An_unknown_full_text_failure_occurred_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___Could_not_find_full_text_index_for_database_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___Could_not_find_full_text_index_for_database_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___Full_text_catalog_lacks_sufficient_disk_space_to_complete_this_operation_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___Full_text_catalog_lacks_sufficient_disk_space_to_complete_this_operation_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___Search_on_full_text_catalog_failed_with_unknown_result_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___Search_on_full_text_catalog_failed_with_unknown_result_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Internal_Query_Processor_Error__The_query_processor_could_not_obtain_access_to_a_required_interface_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Internal_Query_Processor_Error__The_query_processor_could_not_obtain_access_to_a_required_interface_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Internal_Query_Processor_Error__The_query_processor_encountered_an_internal_limit_overflow_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Internal_Query_Processor_Error__The_query_processor_encountered_an_internal_limit_overflow_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Internal_Query_Processor_Error__The_query_processor_encountered_an_unexpected_error_during_execution_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Internal_Query_Processor_Error__The_query_processor_encountered_an_unexpected_error_during_execution_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Internal_Query_Processor_Error__The_query_processor_encountered_an_unexpected_error_during_the_processing_of_a_remote_query_phase_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Internal_Query_Processor_Error__The_query_processor_encountered_an_unexpected_error_during_the_processing_of_a_remote_query_phase_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Internal_Query_Processor_Error__The_query_processor_ran_out_of_stack_space_during_query_optimization_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Internal_Query_Processor_Error__The_query_processor_ran_out_of_stack_space_during_query_optimization_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Invalid_reference_to_LOB_page_id7105" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Invalid_reference_to_LOB_page_id7105" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Logical_consistency_error_after_performing_IO_on_page_id824" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Logical_consistency_error_after_performing_IO_on_page_id824" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Logical_page_in_database_is_already_hashed_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Logical_page_in_database_is_already_hashed_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_open_user_default_database._Login_failed_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_open_user_default_database._Login_failed_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Account_locked_out_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Account_locked_out_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Error_during_validation_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Error_during_validation_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_cannot_be_used_at_this_time_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_cannot_be_used_at_this_time_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_expired_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_expired_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_fails_password_filter_DLL_requirements_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_fails_password_filter_DLL_requirements_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_must_be_changed_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_must_be_changed_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_too_long_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_too_long_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_too_short_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_too_short_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_too_simple_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_too_simple_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.MSDTC_on_server__is_unavailable_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.MSDTC_on_server__is_unavailable_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.A_fatal_error_occurred_in_.NET_Framework_runtime_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.A_fatal_error_occurred_in_.NET_Framework_runtime_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine._.NET_Framework_runtime_was_shut_down_by_user_code_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine._.NET_Framework_runtime_was_shut_down_by_user_code_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.No_slots_are_free_to_keep_buffers_for_table__1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.No_slots_are_free_to_keep_buffers_for_table__1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.One_or_more_indexes_are_damaged_and_must_be_repaired_or_dropped_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.One_or_more_indexes_are_damaged_and_must_be_repaired_or_dropped_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Operating_System_error_encountered_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Operating_System_error_encountered_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Operating_system_error_on_a_device_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Operating_system_error_on_a_device_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.OSError_Occurred_While_Performing_IO_onpage_id823" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.OSError_Occurred_While_Performing_IO_onpage_id823" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Page_allocated_to_object_was_not_seen.__Page_may_be_invalid_or_have_incorrect_object_ID_information_in_its_header_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Page_allocated_to_object_was_not_seen.__Page_may_be_invalid_or_have_incorrect_object_ID_information_in_its_header_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Cross_object_linkage._Page_PGID_next_is_not_in_the_same_index_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Cross_object_linkage._Page_PGID_next_is_not_in_the_same_index_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Permission_denied_on_object_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Permission_denied_on_object_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error___The_next_pointer_of_refers_to_page._Neither_its_parent_were_encountered._Possible_bad_chain_linkage_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error___The_next_pointer_of_refers_to_page._Neither_its_parent_were_encountered._Possible_bad_chain_linkage_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Page_is_missing_references_from_parent__unknown__and_previous_nodes._Possible_bad_root_entry_in_sysindexes_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Page_is_missing_references_from_parent__unknown__and_previous_nodes._Possible_bad_root_entry_in_sysindexes_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Page_is_missing_a_reference_from_previous_page._Possible_chain_linkage_problem_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Page_is_missing_a_reference_from_previous_page._Possible_chain_linkage_problem_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.CHECKTABLE_processing_of_object_encountered_page_twice._Possible_internal_error_or_allocation_fault_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.CHECKTABLE_processing_of_object_encountered_page_twice._Possible_internal_error_or_allocation_fault_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Potential_deadlocks_exist_on_all_schedulers_on_Node_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Potential_deadlocks_exist_on_all_schedulers_on_Node_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Process_Worker_appears_to_be_non_yielding_on_Scheduler_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Process_Worker_appears_to_be_non_yielding_on_Scheduler_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Recovery_of_database__detected_possible_identity_value_inconsistency_in_table_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Recovery_of_database__detected_possible_identity_value_inconsistency_in_table_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Transaction_was_deadlocked_on_resources_with_another_process_and_has_been_chosen_as_the_deadlock_victim._Rerun_the_transaction_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Transaction_was_deadlocked_on_resources_with_another_process_and_has_been_chosen_as_the_deadlock_victim._Rerun_the_transaction_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.RESTORE_could_not_start_database_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.RESTORE_could_not_start_database_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Database_cannot_be_opened_due_to_inaccessible_files_or_insufficient_memory_or_disk_space._See_the_SQL_Server_errorlog_for_details_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Database_cannot_be_opened_due_to_inaccessible_files_or_insufficient_memory_or_disk_space._See_the_SQL_Server_errorlog_for_details_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Service_Broker_was_not_able_to_allocate_memory_for_cryptographic_operations_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Service_Broker_was_not_able_to_allocate_memory_for_cryptographic_operations_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_restore_master_database._Shutting_down_SQL_Server_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_restore_master_database._Shutting_down_SQL_Server_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Object_index_page_Test_failed._Slot___Offset_is__invalid_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Object_index_page_Test_failed._Slot___Offset_is__invalid_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error___Test_failed._Slot_overlaps_with_the_prior_row_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error___Test_failed._Slot_overlaps_with_the_prior_row_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_allocate_new_page_for_database_._There_are_no_more_pages_available_in_filegroup.1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_allocate_new_page_for_database_._There_are_no_more_pages_available_in_filegroup.1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Assertion_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Assertion_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Assertion_2_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Assertion_2_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Assertion_3_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Assertion_3_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_cannot_start_the_Service_Broker_event_handler_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!icrosoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_cannot_start_the_Service_Broker_event_handler_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_could_not_allocate_enough_memory_to_start_Service_Broker_task_manager_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_could_not_allocate_enough_memory_to_start_Service_Broker_task_manager_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Service_Broker_cannot_use_RC4_encryption_algorithm_when_running_in_FIPS_compliance_mode_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Service_Broker_cannot_use_RC4_encryption_algorithm_when_running_in_FIPS_compliance_mode_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Service_Broker_could_not_query_the_FIPS_compliance_mode_flag_from_the_registry_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Service_Broker_could_not_query_the_FIPS_compliance_mode_flag_from_the_registry_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Service_Broker_or_Database_Mirror_cryptographic_call_failed_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Service_Broker_or_Database_Mirror_cryptographic_call_failed_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_shutdown_due_to_Ctrl_C_or_Ctrl_Break_signal_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_shutdown_due_to_Ctrl_C_or_Ctrl_Break_signal_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_SQL_Server_Service_Broker_attempted_to_use_an_unsupported_encryption_algorithm_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_SQL_Server_Service_Broker_attempted_to_use_an_unsupported_encryption_algorithm_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Starting_without_recovery_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Starting_without_recovery_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error___Address_is_not_aligned_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error___Address_is_not_aligned_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Allocation_page_has_invalid__page_header_values.__1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Allocation_page_has_invalid__page_header_values.__1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__B_tree_chain_linkage_mismatch.__1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__B_tree_chain_linkage_mismatch.__1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__B_tree_level_mismatch_page_does_not_match_level_from_parent__1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__B_tree_level_mismatch_page_does_not_match_level_from_parent__1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__B_tree_page_has_two_parent_nodes__1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__B_tree_page_has_two_parent_nodes__1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Column_is_not_a_valid_complex_column_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Column_is_not_a_valid_complex_column_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__cross_object_chain_linkage_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__cross_object_chain_linkage_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Cross_object_linkage_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Cross_object_linkage_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Cross_object_linkage__Parent_page_in_object_next_refer_to_page_not_in_the_same_object_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Cross_object_linkage__Parent_page_in_object_next_refer_to_page_not_in_the_same_object_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Extent_object_is_beyond_the_range_of_this_database_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Extent_object_is_beyond_the_range_of_this_database_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Extra_or_invalid_key_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Extra_or_invalid_key_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__IAM_chain_linkage_error_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__IAM_chain_linkage_error_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__IAM_page_is_linked_in_the_IAM_chain_for_object_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__IAM_page_is_linked_in_the_IAM_chain_for_object_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Index_node_page_refers_to_child_page_and_previous_child_but_they_were_not_encountered_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Index_node_page_refers_to_child_page_and_previous_child_but_they_were_not_encountered_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Page_in_its_header_is_allocated_by_another_object_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Page_in_its_header_is_allocated_by_another_object_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__page_is_out_of_the_range_of_this_database_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__page_is_out_of_the_range_of_this_database_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Parent_node_for_page_was_not_encountered_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Parent_node_for_page_was_not_encountered_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Slot_row_extends_into_free_space__1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Slot_row_extends_into_free_space__1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Table_missing_or_invalid_key_in_index_for_the_row__1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Table_missing_or_invalid_key_in_index_for_the_row__1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_high_key_value_on_page_is_not_less_than_the_low_key_value_in_the_parent_slot_of_the_next_page_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_high_key_value_on_page_is_not_less_than_the_low_key_value_in_the_parent_slot_of_the_next_page_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_low_key_value_on_page__is_not_the_key_value_in_the_parent_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_low_key_value_on_page__is_not_the_key_value_in_the_parent_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_previous_link_on_page_does_not_match_the_previous_page_that_the_parent_slot_expects_for_this_page_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_previous_link_on_page_does_not_match_the_previous_page_that_the_parent_slot_expects_for_this_page_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_text_ntext_or_image_node_at_page_is_not_referenced_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_text_ntext_or_image_node_at_page_is_not_referenced_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_text_ntext_or_image_node_at_page__is_referenced_by_page_not_seen_in_the_scan_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_text_ntext_or_image_node_at_page__is_referenced_by_page_not_seen_in_the_scan_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_text_ntext_or_image_node_has_wrong_type_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_text_ntext_or_image_node_has_wrong_type_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error___Unexpected_page_type__1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error___Unexpected_page_type__1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Wrong_PageId_in_the_page_header_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Wrong_PageId_in_the_page_header_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table___No_columns_without_statistics_found_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Table___No_columns_without_statistics_found_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_finish_full_text_operation._The_filegroup_is_empty_read_only_or_not_online_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_finish_full_text_operation._The_filegroup_is_empty_read_only_or_not_online_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.The_IO_operation_was_successful_after_retry_id825" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.The_IO_operation_was_successful_after_retry_id825" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.The_LSN_passed_to_log_scan_in_database_is_invalid_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.The_LSN_passed_to_log_scan_in_database_is_invalid_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.The_provider_reported_an_unexpected_catastrophic_failure_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.The_provider_reported_an_unexpected_catastrophic_failure_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.The_query_processor_could_not_start_the_necessary_thread_resources_for_parallel_query_execution_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.The_query_processor_could_not_start_the_necessary_thread_resources_for_parallel_query_execution_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.The_Service_Broker_Database_Mirroring_transport_cannot_listen_on_port_because_it_is_in_use_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.The_Service_Broker_Database_Mirroring_transport_cannot_listen_on_port_because_it_is_in_use_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.The_Service_Broker_Database_Mirroring_Transport_could_not_listen_for_connections_due_to_an_error_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.The_Service_Broker_Database_Mirroring_Transport_could_not_listen_for_connections_due_to_an_error_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.The_user_is_not_allowed_to_truncate_the_system_table_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.The_user_is_not_allowed_to_truncate_the_system_table_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Indexed_view_does_not_contain_all_rows_that_the_view_definition_produces.__Refer_to_Books_Online_for_more_information_on_this_error.5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Indexed_view_does_not_contain_all_rows_that_the_view_definition_produces.__Refer_to_Books_Online_for_more_information_on_this_error.5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Unexpected_end_of_file_while_reading_beginning_of_backup_set_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Unexpected_end_of_file_while_reading_beginning_of_backup_set_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Unique_table_computation_failed_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Unique_table_computation_failed_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___Full_Text_Search_is_not_enabled_for_the_current_database._Use_sp_fulltext_database_to_enable_Full_Text_Search_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___Full_Text_Search_is_not_enabled_for_the_current_database._Use_sp_fulltext_database_to_enable_Full_Text_Search_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___XML_document_could_not_be_created_because_server_memory_is_low._Use_sp_xml_removedocument_to_release_XML_documents_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___XML_document_could_not_be_created_because_server_memory_is_low._Use_sp_xml_removedocument_to_release_XML_documents_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___Size_of_data_chunk_requested_from_the_stream_exceeds_allowed_limit_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___Size_of_data_chunk_requested_from_the_stream_exceeds_allowed_limit_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___XML_error_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___XML_error_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___XML_parsing_error_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___XML_parsing_error_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Rule.XTP.BackgroundThreadError" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Rule.XTP.BackgroundThreadError" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Rule.XTP.BackgroundThreadErrorLog" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Rule.XTP.BackgroundThreadErrorLog" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.AvailabilityReplica" Context="MSSWD!Microsoft.SQLServer.Windows.AvailabilityReplica" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.AvailabilityReplica" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.AvailabilityReplica.RoleChanged" Context="MSSWD!Microsoft.SQLServer.Windows.AvailabilityReplica" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.AvailabilityReplica.RoleChanged" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DatabaseReplica.RoleChanged" Context="MSSWD!Microsoft.SQLServer.Windows.DatabaseReplica" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DatabaseReplica.RoleChanged" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.DatabaseReplica" Context="MSSWD!Microsoft.SQLServer.Windows.DatabaseReplica" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.DatabaseReplica" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.Database.Database_Backup_Failed_To_Complete_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.Database" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.Database.Database_Backup_Failed_To_Complete_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Backup_device_failed___Operating_system_error_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.DBEngine" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.DBEngine.Backup_device_failed___Operating_system_error_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <MonitorPropertyOverride ID="Override.Microsoft.SQLServer.Windows.Monitor.Database.SecurablesDbConfig" Context="MSSWD!Microsoft.SQLServer.Windows.Database" Enforced="false" Monitor="MSSWM!Microsoft.SQLServer.Windows.Monitor.Database.SecurablesDbConfig" Property="Enabled">
+        <Value>false</Value>
+      </MonitorPropertyOverride>
+      <RulePropertyOverride ID="Override.Microsoft.SQLServer.Windows.EventRule.Database.Log_Backup_Failed_to_Complete_1_5_Rule" Context="MSSWD!Microsoft.SQLServer.Windows.Database" Enforced="false" Rule="MSSWM!Microsoft.SQLServer.Windows.EventRule.Database.Log_Backup_Failed_to_Complete_1_5_Rule" Property="Enabled">
+        <Value>false</Value>
+      </RulePropertyOverride>
+      <RuleConfigurationOverride ID="Override.Severity.Microsoft.SQLServer.Windows.Rule.MonitoringPoolAlertCollection.DiscoveryError" Context="MSSWD!Microsoft.SQLServer.Windows.MonitoringPoolAlertCollection" Enforced="false" Rule="MSSWD!Microsoft.SQLServer.Windows.Rule.MonitoringPoolAlertCollection.DiscoveryError" Parameter="Severity" Module="Alert">
+        <Value>1</Value>
+      </RuleConfigurationOverride>
+    </Overrides>
+  </Monitoring>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="false">
+      <DisplayStrings>
+        <DisplayString ElementID="Microsoft.SQLServer.Windows.Monitoring.Addendum">
+          <Name>Microsoft SQLServer Windows Monitoring Addendum</Name>
+          <Description>
+v1.0.1.1 23 Feb 2023 Group regex replaced with ##
+v1.0.1.0 23 Jan 2023 Group and override updates
+v1.0.0.9 15 Mar 2022 Updated log backup failed to complete rule
+v1.0.0.8  9 Jul 2021 Updated Securables DB config overide to disable for STIG'd databases
+v1.0.0.6  9 Apr 2020 Created groups for seed discovery Test/Dev and Prod; excluded EXPRESS, disabled Securables monitor
+v1.0.0.5  1 Apr 2020 Updated rules for backup failures when customer uses Netbackup vs. SQL agent/scheduled tasks
+v1.0.0.4  4 Mar 2020 Completed overrides for SQL warning rules
+v1.0.0.3  2 Mar 2020 Overrides for SQL rules for warning
+v1.0.0.2  2 Mar 2020 Overrides for severities and SQL CPU samples
+v1.0.0.1 24 Feb 2020 Override pack cleanup to human readable format
+v1.0.0.0 24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Database.DatabaseBackupStatus">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Database.DatabaseLogBackupStatus">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Database.FilestreamSizePercent">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.DBFile.DBFileSpace">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.DBLogFile.DBLogFileSpace">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.AgentJob.Duration">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.AgentJob.LastRunState">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.LogShippingDestinationMonitor">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Database.LogShippingSourceMonitor">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.DBEngine.AverageWaitTime">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.DBEngine.BlockingSessions">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.AvailabilityReplica.SecurablesConfigMonitor">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.DBEngine.ServicePackLevel">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.DBEngine.StolenServerMemory">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.DBEngine.ThreadCount">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.DBFilegroupFx.HashIndexAvgChainLength">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.DBFilegroupFx.HashIndexEmptyBucketsCount">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.DBFilegroupFx.StaleCFPs">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.DBFilegroupFx.XTPConfigurationMonitor">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.Database.ServiceStatus">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.LocalDBEngine.WmiHealth">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.DatabaseErrorUserPolicy.DBErrorUserPolicyState">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.DatabaseWarningUserPolicy.DBWarningUserPolicyState">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.UserResourcePool.MemoryConsumption">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.AvailabilityGroupHealth.AutomaticFailoverReadiness">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.AvailabilityGroupHealth.AvailabilityGroupOnline">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.AvailabilityGroupHealth.AvailabilityReplicaRoleState">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.AvailabilityGroupHealth.AvailabilityReplicasSynchronizationState">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.AvailabilityReplica.IsConnected">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.AvailabilityReplica.RoleIsHealthy">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.DBEngine.Configuration.SecurablesConfigMonitor">
+          <Name>NotUsed</Name>
+          <Description>Disabled 9 Apr 2020 for Securables monitor for STIG'd machines</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.CollectionRule.Agent.Job_step_cannot_be_run_because_the_subsystem_failed_to_load_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.CollectionRule.Agent.SQLServerAgent_could_not_be_started_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.CollectionRule.Agent.SQLServerAgent_initiating_self_termination_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.CollectionRule.Agent.Step_of_a_job_caused_an_exception_in_the_subsystem_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.CollectionRule.Agent.Unable_to_connect_to_SQL_Server_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.CollectionRule.Agent.Unable_to_re_open_the_local_eventlog_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.CollectionRule.Agent.The_agent_is_suspect._No_response_within_last_minutes_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.A_default_full_text_catalog_does_not_exist_in_the_database_or_user_does_not_have_permission_to_perform_this_action_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_a_SQL_Server_Service_Broker_Database_Mirroring_transport_connection_endpoint_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_Service_Broker_manager_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_Service_Broker_queue_rollback_handler_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_SQL_Server_Service_Broker_message_dispatcher_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_SQL_Server_Service_Broker_message_transmitter_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_SQL_Server_Service_Broker_or_Database_Mirroring_transport_manager_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_in_the_timer_event_cache_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_while_processing_SQL_Server_Service_Broker_mirroring_routes_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_error_occurred_while_processing_the_log_for_database_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.An_SQL_Server_Service_Broker_dialog_caught_an_error_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.AppDomain_failed_to_unload_with_error_code_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.A_security__SSPI__error_occurred_when_connecting_to_another_Service_Broker_or_Database_Mirroring_host_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.A_SQL_Server_Service_Broker_conversation_closed_due_to_an_error_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.A_SQL_Server_Service_Broker_cryptographic_operation_failed_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Attempt_to_fetch_logical_page_that_belongs_to_different_object_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.AWE__Could_not_use_Address_Windowing_Extensions_because__lock_pages_in_memory__privilege_was_not_granted_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_open_tempdb.__Cannot_continue_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.EventCollectionRule.DBEngine.CannotCreateFile">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_determine_the_service_account_for_SQL_Server_instance_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_open_backup_device.__1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_start_service_broker_activation_manager_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_start_service_broker_manager_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_start_service_broker_manager_due_to_operating_system_error_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_start_service_broker_security_manager_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_start_SQL_Server_Service_Broker_on_Database_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Page_was_not_seen_in_the_scan_although_its_parent_and_previous_refer_to_it._Check_any_previous_errors_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.CHECKTABLE_terminated._A_failure_was_detected_while_collecting_facts._Possibly_tempdb_out_of_space_or_a_system_table_is_inconsistent._Check_previous_errors_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Check_sum_failure_while_page_in_cache_id832">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___FOR_XML_EXPLICIT_stack_overflow_occurred._Circular_parent_tag_relationships_are_not_allowed_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Commit_of_internal_MSDTC_transaction_failed_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Common_Language_Runtime__CLR__not_installed_properly_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Conflict_table__does_not_exist_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.CREATE_DATABASE_failed._Could_not_allocate_enough_disk_space_for_a_new_database_on_the_named_disks_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_allocate_space_for_object__in_database__because_the__filegroup_is_full_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Error_recovering_database_._Could_not_connect_to_MSDTC_to_check_the_completion_status_of_transaction_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_connect_to_server_because_it_is_not_defined_as_a_remote_login_at_the_server_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_create_an_instance_of_OLE_DB_provider_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_create_AppDomain_manager_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_create_a_statement_object_using_OLE_DB_provider_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_do_cleanup_for_the_killed_process_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_find_CHECK_constraint_although_the_table_is_flagged_as_having_one_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_find_FOREIGN_KEY_constraints_for_table_although_the_table_is_flagged_as_having_them_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_obtain_exclusive_lock_on_database_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_obtain_information_about_Windows_NT_group_user_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_open_device_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_open_error_log_file_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_open_FCB_for_invalid_file_in_database__1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_open_referenced_table_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_read_and_latch_page_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_recover_database_due_to_unresolved_transaction_outcomes_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_resolve_the_referenced_column_name_in_table_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_write_a_CHECKPOINT_record_in_database_because_the_log_is_out_of_space_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.EventCollectionRule.DBEngine.CreateFileEncounteredOperatingSystemError">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Database_could_not_recover_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.DBCC_executed_found_and_repaired_errors_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_mark_database_as_suspect._Getnext_NC_scan_on_sysdatabases.dbid_failed_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Descriptor_for_object_in_database_not_found_in_the_hash_table_during_attempt_to_unhash_it_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Distributed_transaction_aborted_by_MSDTC_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___Failed_to_load_Msxml2.dll_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___Failed_to_instantiate_class._Make_sure_Msxml2.dll_exists_in_the_SQL_Server_installation_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___Full_text_catalog_is_in_a_unusable_state._Drop_and_re_create_this_full_text_catalog_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Enlist_of_MSDTC_transaction_failed_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Error_while_undoing_logged_operation_in_database__1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_recover_the_master_database._Exiting_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_add_column__to_table__1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_allocate_memory_for_Common_Language_Runtime__CLR__5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_create_AppDomain_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_drop_column__from_table__1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_initialize_the_Common_Language_Runtime__CLR__due_to_memory_pressure_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_initialize_the_Common_Language_Runtime__CLR__with_HRESULT_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_initialize_the_Common_Language_Runtime__CLR__with_HRESULT_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_find_filegroup_ID_in_sys.filegroups_for_database_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___An_unknown_full_text_failure_occurred_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___Could_not_find_full_text_index_for_database_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___Full_text_catalog_lacks_sufficient_disk_space_to_complete_this_operation_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___Search_on_full_text_catalog_failed_with_unknown_result_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Internal_Query_Processor_Error__The_query_processor_could_not_obtain_access_to_a_required_interface_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Internal_Query_Processor_Error__The_query_processor_encountered_an_internal_limit_overflow_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Internal_Query_Processor_Error__The_query_processor_encountered_an_unexpected_error_during_execution_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Internal_Query_Processor_Error__The_query_processor_encountered_an_unexpected_error_during_the_processing_of_a_remote_query_phase_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Internal_Query_Processor_Error__The_query_processor_ran_out_of_stack_space_during_query_optimization_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Invalid_reference_to_LOB_page_id7105">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Logical_consistency_error_after_performing_IO_on_page_id824">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Logical_page_in_database_is_already_hashed_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Cannot_open_user_default_database._Login_failed_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Account_locked_out_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Error_during_validation_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_cannot_be_used_at_this_time_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_expired_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_fails_password_filter_DLL_requirements_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_must_be_changed_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_too_long_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_too_short_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Login_failed__Password_too_simple_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.MSDTC_on_server__is_unavailable_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.A_fatal_error_occurred_in_.NET_Framework_runtime_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine._.NET_Framework_runtime_was_shut_down_by_user_code_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.No_slots_are_free_to_keep_buffers_for_table__1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.One_or_more_indexes_are_damaged_and_must_be_repaired_or_dropped_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Operating_System_error_encountered_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Operating_system_error_on_a_device_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.OSError_Occurred_While_Performing_IO_onpage_id823">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Page_allocated_to_object_was_not_seen.__Page_may_be_invalid_or_have_incorrect_object_ID_information_in_its_header_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Cross_object_linkage._Page_PGID_next_is_not_in_the_same_index_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Permission_denied_on_object_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error___The_next_pointer_of_refers_to_page._Neither_its_parent_were_encountered._Possible_bad_chain_linkage_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Page_is_missing_references_from_parent__unknown__and_previous_nodes._Possible_bad_root_entry_in_sysindexes_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Page_is_missing_a_reference_from_previous_page._Possible_chain_linkage_problem_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.CHECKTABLE_processing_of_object_encountered_page_twice._Possible_internal_error_or_allocation_fault_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Potential_deadlocks_exist_on_all_schedulers_on_Node_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Process_Worker_appears_to_be_non_yielding_on_Scheduler_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Recovery_of_database__detected_possible_identity_value_inconsistency_in_table_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Transaction_was_deadlocked_on_resources_with_another_process_and_has_been_chosen_as_the_deadlock_victim._Rerun_the_transaction_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.RESTORE_could_not_start_database_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Database_cannot_be_opened_due_to_inaccessible_files_or_insufficient_memory_or_disk_space._See_the_SQL_Server_errorlog_for_details_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Service_Broker_was_not_able_to_allocate_memory_for_cryptographic_operations_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_restore_master_database._Shutting_down_SQL_Server_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Object_index_page_Test_failed._Slot___Offset_is__invalid_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error___Test_failed._Slot_overlaps_with_the_prior_row_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Could_not_allocate_new_page_for_database_._There_are_no_more_pages_available_in_filegroup.1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Assertion_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Assertion_2_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Assertion_3_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_cannot_start_the_Service_Broker_event_handler_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_could_not_allocate_enough_memory_to_start_Service_Broker_task_manager_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Service_Broker_cannot_use_RC4_encryption_algorithm_when_running_in_FIPS_compliance_mode_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Service_Broker_could_not_query_the_FIPS_compliance_mode_flag_from_the_registry_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_Service_Broker_or_Database_Mirror_cryptographic_call_failed_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_shutdown_due_to_Ctrl_C_or_Ctrl_Break_signal_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.SQL_Server_SQL_Server_Service_Broker_attempted_to_use_an_unsupported_encryption_algorithm_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Starting_without_recovery_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error___Address_is_not_aligned_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Allocation_page_has_invalid__page_header_values.__1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__B_tree_chain_linkage_mismatch.__1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__B_tree_level_mismatch_page_does_not_match_level_from_parent__1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__B_tree_page_has_two_parent_nodes__1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Column_is_not_a_valid_complex_column_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__cross_object_chain_linkage_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Cross_object_linkage_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Cross_object_linkage__Parent_page_in_object_next_refer_to_page_not_in_the_same_object_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Extent_object_is_beyond_the_range_of_this_database_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Extra_or_invalid_key_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__IAM_chain_linkage_error_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__IAM_page_is_linked_in_the_IAM_chain_for_object_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Index_node_page_refers_to_child_page_and_previous_child_but_they_were_not_encountered_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Page_in_its_header_is_allocated_by_another_object_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__page_is_out_of_the_range_of_this_database_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Parent_node_for_page_was_not_encountered_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Slot_row_extends_into_free_space__1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Table_missing_or_invalid_key_in_index_for_the_row__1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_high_key_value_on_page_is_not_less_than_the_low_key_value_in_the_parent_slot_of_the_next_page_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_low_key_value_on_page__is_not_the_key_value_in_the_parent_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_previous_link_on_page_does_not_match_the_previous_page_that_the_parent_slot_expects_for_this_page_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_text_ntext_or_image_node_at_page_is_not_referenced_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_text_ntext_or_image_node_at_page__is_referenced_by_page_not_seen_in_the_scan_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__The_text_ntext_or_image_node_has_wrong_type_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error___Unexpected_page_type__1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table_error__Wrong_PageId_in_the_page_header_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Table___No_columns_without_statistics_found_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Failed_to_finish_full_text_operation._The_filegroup_is_empty_read_only_or_not_online_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.The_IO_operation_was_successful_after_retry_id825">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.The_LSN_passed_to_log_scan_in_database_is_invalid_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.The_provider_reported_an_unexpected_catastrophic_failure_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.The_query_processor_could_not_start_the_necessary_thread_resources_for_parallel_query_execution_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.The_Service_Broker_Database_Mirroring_transport_cannot_listen_on_port_because_it_is_in_use_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.The_Service_Broker_Database_Mirroring_Transport_could_not_listen_for_connections_due_to_an_error_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.The_user_is_not_allowed_to_truncate_the_system_table_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Indexed_view_does_not_contain_all_rows_that_the_view_definition_produces.__Refer_to_Books_Online_for_more_information_on_this_error.5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Unexpected_end_of_file_while_reading_beginning_of_backup_set_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Unique_table_computation_failed_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Full_Text_Search___Full_Text_Search_is_not_enabled_for_the_current_database._Use_sp_fulltext_database_to_enable_Full_Text_Search_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___XML_document_could_not_be_created_because_server_memory_is_low._Use_sp_xml_removedocument_to_release_XML_documents_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___Size_of_data_chunk_requested_from_the_stream_exceeds_allowed_limit_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___XML_error_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.XML___XML_parsing_error_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Rule.XTP.BackgroundThreadError">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Rule.XTP.BackgroundThreadErrorLog">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.AvailabilityReplica">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.AvailabilityReplica.RoleChanged">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.DatabaseReplica">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DatabaseReplica.RoleChanged">
+          <Name>NotUsed</Name>
+          <Description>24 Feb 2020 Override to enable SQL Monitoring</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.AlertSeverity.Microsoft.SQLServer.Windows.Database.DatabaseBackupStatus">
+          <Name>NotUsed</Name>
+          <Description>Updated 25 Feb 2020 for severity/alert on state</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.AlertOnState.Microsoft.SQLServer.Windows.Database.DatabaseLogBackupStatus">
+          <Name>NotUsed</Name>
+          <Description>Updated 25 Feb 2020 for severity/alert on state</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.AlertSeverity.Microsoft.SQLServer.Windows.Database.DatabaseLogBackupStatus">
+          <Name>NotUsed</Name>
+          <Description>Updated 25 Feb 2020 for severity/alert on state</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.AlertOnState.Microsoft.SQLServer.Windows.Database.DatabaseBackupStatus">
+          <Name>NotUsed</Name>
+          <Description>Updated 25 Feb 2020 for severity/alert on state</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.Database.Database_Backup_Failed_To_Complete_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>Disabled 24 Mar 2020 for SQL alert rules, backups are responsibility of NetBackup and SQL DBA system admins.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.DBEngine.Backup_device_failed___Operating_system_error_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>Disabled 24 Mar 2020 for SQL alert rules, backups are responsibility of NetBackup and SQL DBA system admins.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.LocalDBEngineDiscovery">
+          <Name>NotUsed</Name>
+          <Description>2 Apr 2020 - KWJ - Excluding SQLExpress versions per best practice</Description>
+        </DisplayString>
+        <DisplayString ElementID="Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.TestDev.Windows.Server.Group">
+          <Name>MSSQL on Windows: SQL Server Windows Server Test/Dev</Name>
+          <Description>Created 9 Apr 2020 for Test/Dev SQL computers where monitoring is handled differently</Description>
+        </DisplayString>
+        <DisplayString ElementID="Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.TestDev.Windows.Server.Group.DiscoveryRule">
+          <Name>Populate MSSQL on Windows: Test/Dev SQL Computers</Name>
+          <Description>This discovery rule populates the group 'MSSQL on Windows: Test/Dev SQL Computers'</Description>
+        </DisplayString>
+        <DisplayString ElementID="Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.Production.Windows.Server.Group">
+          <Name>MSSQL on Windows: SQL Server Windows Server Production</Name>
+          <Description>Created 9 Apr 2020 for Test/Dev SQL computers where monitoring is handled differently</Description>
+        </DisplayString>
+        <DisplayString ElementID="Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.Production.Windows.Server.Group.DiscoveryRule">
+          <Name>Populate MSSQL on Windows: SQL Computers Production</Name>
+          <Description>This discovery rule populates the group 'MSSQL on Windows: SQL Computers Production'</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Disable.Microsoft.SQLServer.Windows.Discovery.LocalDiscoverySeed">
+          <Name>NotUsed</Name>
+          <Description>Disabled discovery 9 Apr 2020 for SQL discovery across SCOM</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.TestDev.Windows.Server.Group">
+          <Name>NotUsed</Name>
+          <Description>Disabled 9 Apr 2020 for Test/Dev Servers where customer does NOT want them monitored.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Discovery.Microsoft.SQLServer.Window.Monitoring.Addendum.Production.Windows.Server.Group">
+          <Name>NotUsed</Name>
+          <Description>Enabled 9 Apr 2020 - where customers want monitored Production SQL server discovery</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.Monitor.Database.SecurablesDbConfig">
+          <Name>NotUsed</Name>
+          <Description>9 July 2021 - KWJ - Disabled as STIG requirement per best practice from DBA's</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Microsoft.SQLServer.Windows.EventRule.Database.Log_Backup_Failed_to_Complete_1_5_Rule">
+          <Name>NotUsed</Name>
+          <Description>10 Dec 2021 - KWJ - Disabled rule for backup alerts</Description>
+        </DisplayString>
+        <DisplayString ElementID="Override.Severity.Microsoft.SQLServer.Windows.Rule.MonitoringPoolAlertCollection.DiscoveryError">
+          <Name>NotUsed</Name>
+          <Description>18 Nov 2022 - KWJ - Changing alert to warning</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPack>
